@@ -1,5 +1,5 @@
 
-// module.exports = (DataTypes, Model, sequelize) => {
+module.exports = (DataTypes, Model, sequelize) => {}
 //     class UserModel extends Model { }
 
 //     UserModel.init({

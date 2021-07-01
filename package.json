@@ -20,8 +20,10 @@
   },
   "homepage": "https://github.com/drmorzek/KOA_SERVER_TEST#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
+    "koa-logger": "^3.2.1",
     "koa-router": "^10.0.0",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.4",
