@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
     "start": "node server.js"
   },
   "repository": {
@@ -17,5 +18,16 @@
   "bugs": {
     "url": "https://github.com/drmorzek/KOA_SERVER_TEST/issues"
   },
-  "homepage": "https://github.com/drmorzek/KOA_SERVER_TEST#readme"
+  "homepage": "https://github.com/drmorzek/KOA_SERVER_TEST#readme",
+  "dependencies": {
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "pg": "^8.6.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  }
 }
