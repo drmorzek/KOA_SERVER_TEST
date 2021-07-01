@@ -1,5 +1,7 @@
-const testrouter = require("./testModel");
+const corerouter = require("./coreModel");
+const lessonsrouter = require("./lessonsModel");
 
 module.exports = [
-    testrouter
+    corerouter,
+    lessonsrouter
 ]
