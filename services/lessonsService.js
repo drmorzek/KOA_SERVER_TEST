@@ -1,9 +1,6 @@
-const LessonsDto = requireRoot("./models/dto/coreLessonsDto")
-const StudentDto = requireRoot("./models/dto/studentDto")
-const TeacherDto = requireRoot("./models/dto/teacherDto")
 
-const {models} = requireRoot('db');
-// const sequelize = require("sequelize");
+const {Sequelize, models} = requireRoot('db');
+const { Op } = Sequelize;
 
 async function getLessons(
     { date, status, teacherIds, studentsCount, page ,lessonsPerPage }
@@ -44,7 +41,7 @@ async function getLessons(
         findOpt.where.status = parseInt(status)
     }
     
-    let dateFind = date?.split(',').map(e => new Date(e))
+    let dateFind = date?.split(',').map(e => new Date(e)).sort((a, b) => a - b)
     if(dateFind != undefined) {
         findOpt.where.date = dateFind.lenth == 1 ? dateFind : {[Op.between]:dateFind}
     } 
@@ -56,23 +53,68 @@ async function getLessons(
             }
     }
     findOpt.include.push(Teachers)
-
     
     let q = await models.LessonsModel.findAndCountAll(findOpt)
-
-    let countstudents = {};
-
-    q.rows.forEach(element => {        
-        countstudents[element.id] = countstudents[element.id] != undefined 
-                ? countstudents[element.id] + 1 
-                : 1
-    });
-
     
+    let out = {}
 
-    // console.log(q.rows.filter(x => x['LessonsStudentsModels.student_id']).length)
-    console.log(q.rows)
-    console.log(countstudents)
+    q.rows.forEach(e => {
+        
+        out[e.id] = {
+            id : e.id,
+            date : e.date,
+            title : e.title,
+            status : e.status,
+            visitCount : 0
+        }
+
+        if(out[e.id]["students"] == undefined) out[e.id]["students"] = []
+        if(out[e.id]["teachers"] == undefined) out[e.id]["teachers"] = []
+
+        if(e['LessonsStudentsModels.visit']) out[e.id]["visitCount"]++;
+
+        if(e['LessonsStudentsModels.StudentsModel.id'] != null ) {
+            out[e.id]["students"].push(
+                { 
+                    id: e['LessonsStudentsModels.StudentsModel.id'], // id ученика
+                    name: e['LessonsStudentsModels.StudentsModel.name'], // имя
+                    visit: e['LessonsStudentsModels.visit'],
+                }
+            );
+        } 
+
+        if(e['LessonsTeachersModels.TeachersModel.id'] != null ) {
+            out[e.id]["teachers"].push(
+                { 
+                    id: e['LessonsTeachersModels.TeachersModel.id'], 
+                    name: e['LessonsTeachersModels.TeachersModel.name']
+                }
+            );
+        } 
+            
+    })
+
+    let countstudents
+    if(studentsCount != undefined) {
+        countstudents = studentsCount.split(',')
+                .map(e => parseInt(e))
+                .slice(0, 2)
+                .sort((a, b) => a - b)
+    }
+
+    let outarr = Object.values(out)
+            .filter(e => {
+                if (countstudents) {
+                    if(countstudents.length == 1) {
+                        return e.students.length == countstudents[0]
+                    } else {
+                        return e.students.length >= countstudents[0] && e.students.length <= countstudents[1]
+                    }
+                }
+                return true
+            })
+
+    return outarr;
 }
 
 module.exports = getLessons
