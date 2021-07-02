@@ -1,3 +1,3 @@
-const lessonsController = require("../controllers/lessonsController")
+const lessonsController = requireRoot("./controllers/lessonsController")
 
 module.exports = (router) => router.post('/lessons', lessonsController.addLessons);

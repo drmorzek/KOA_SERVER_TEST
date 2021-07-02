@@ -1,7 +1,9 @@
-const corerouter = require("./coreModel");
-const lessonsrouter = require("./lessonsModel");
+const corerouter = require("./routers/coreModel");
+const lessonsrouter = require("./routers/lessonsModel");
 
-module.exports = [
-    corerouter,
-    lessonsrouter
-]
+module.exports = {
+    routers :[
+        corerouter,
+        lessonsrouter
+    ]
+}

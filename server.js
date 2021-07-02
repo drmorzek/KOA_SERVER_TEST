@@ -11,14 +11,14 @@ const Router = require("koa-router");
 
 
 const middleware = require("./middleware");
-const models = require("./models");
+const { routers } = require("./models");
 const db = require("./db")
 
 const app = new Koa();
 const router = new Router();
 
 middleware.forEach(m => app.use(m))
-models.forEach(m => m(router))
+routers.forEach(m => m(router))
 
 app
   .use(router.routes())
