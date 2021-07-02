@@ -48,9 +48,12 @@ class coreController {
         lessonsService({ 
           date: ctx.query.date , 
           status: ctx.query.status, 
+          page: ctx.query.page, 
+          studentsCount: ctx.query.studentsCount, 
+          lessonsPerPage: ctx.query.lessonsPerPage, 
           teacherIds: ctx.query.teacherIds})
 
-          
+
         ctx.body = "Hi"
       }
 

@@ -3,27 +3,41 @@ const StudentDto = requireRoot("./models/dto/studentDto")
 const TeacherDto = requireRoot("./models/dto/teacherDto")
 
 const {models} = requireRoot('db');
-const {Op} = require("sequelize");
+// const sequelize = require("sequelize");
 
 async function getLessons(
-    { date, status, teacherIds, studentsCount, page,lessonsPerPage }
-    // { date, status, teacherIds,studentsCount, page = 1 ,lessonsPerPage = 5 }
+    { date, status, teacherIds, studentsCount, page ,lessonsPerPage }
 ) {
 
-    let limit = (lessonsPerPage != undefined) ? parseInt(status) : 5
+    let limit = (lessonsPerPage != undefined) ? parseInt(lessonsPerPage) : 5
     let pagefind = (page != undefined) ? parseInt(page) : 1
-    let offset = 0 + (pagefind - 1) * limit
+    let offset = (pagefind - 1) * limit
 
     let findOpt = {
         where: {},
+        raw:true,
+
         offset,
-        limit,  
-        include: [
-            {
-            model: models.LessonsStudentsModel
-        },
+        limit,
         
+        include: [
+           
+            {
+                model: models.LessonsStudentsModel,
+                include: [{
+                    model: models.StudentsModel,                
+                },
+                ]                
+            },
+            {
+                model: models.LessonsTeachersModel,
+                include: [{
+                    model: models.TeachersModel,                
+                },
+                ]                
+            },
         ],
+        
   }
 
     if(status != undefined) {
@@ -44,12 +58,21 @@ async function getLessons(
     findOpt.include.push(Teachers)
 
     
-    console.log(findOpt)
-    
-    
-    let q = await models.LessonsModel.findAll(findOpt)
+    let q = await models.LessonsModel.findAndCountAll(findOpt)
 
-    console.log(q)
+    let countstudents = {};
+
+    q.rows.forEach(element => {        
+        countstudents[element.id] = countstudents[element.id] != undefined 
+                ? countstudents[element.id] + 1 
+                : 1
+    });
+
+    
+
+    // console.log(q.rows.filter(x => x['LessonsStudentsModels.student_id']).length)
+    console.log(q.rows)
+    console.log(countstudents)
 }
 
 module.exports = getLessons
