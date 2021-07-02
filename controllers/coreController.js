@@ -1,5 +1,4 @@
-const { Op } = require("sequelize");
-const {models} = requireRoot('db');
+const lessonsService = requireRoot('services/lessonsService');
 
 // Параметры фильтра:
 // * date. Либо одна дата в формате YYYY-MM-DD, либо две в таком же формате через запятую
@@ -45,16 +44,13 @@ class coreController {
 
     static async getLessons(ctx, next) {
         // ctx.router available
-        let q = await models.StudentsModel.findAll({
-              include: [{
-                model: models.LessonsStudentsModel,
-                where:  {
-                  lesson_id: 8,
-                },
-            }],
-        })
-        
-        console.log(q)
+        // lessonsService({})
+        lessonsService({ 
+          date: ctx.query.date , 
+          status: ctx.query.status, 
+          teacherIds: ctx.query.teacherIds})
+
+          
         ctx.body = "Hi"
       }
 

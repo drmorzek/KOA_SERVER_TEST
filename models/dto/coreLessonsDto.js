@@ -11,7 +11,7 @@ module.exports = class CoreLessonsDto {
 
     teachers = [] // Массив учителей, ведущих занятие
 
-    constructor({
+    static makeDto({
         id,  // id занятия
         date, // Дата занятия
         title, // Тема занятия

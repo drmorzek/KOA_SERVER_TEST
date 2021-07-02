@@ -3,7 +3,7 @@ module.exports = class StidentDto {
         name // имя
         visit
 
-        constructor({id, name, visit}){
+        static makeDto({id, name, visit}){
                 this.id = id
                 this.name = name
                 this.visit = visit
