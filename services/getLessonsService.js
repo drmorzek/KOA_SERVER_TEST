@@ -1,6 +1,5 @@
 
-const {Sequelize, models} = requireRoot('db');
-const { Op } = Sequelize;
+const {models} = requireRoot('db');
 
 async function getLessons(
     { date, status, teacherIds, studentsCount, page ,lessonsPerPage }

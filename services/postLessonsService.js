@@ -1,17 +1,6 @@
 
 const moment = require('moment');
-const {Sequelize, models} = requireRoot('db');
-const { Op } = Sequelize;
-
-
-// {
-//     "teacherIds": [1,2], 
-//     "title": "Blue Ocean", 
-//     "days": [0,1,3,6], 
-//     "firstDate": "2019-09-10", 
-//     "lessonsCount": 9, 
-//     "lastDate": "2019-12-31" 
-//     }
+const { models} = requireRoot('db');
 
 
 async function postLessons(
