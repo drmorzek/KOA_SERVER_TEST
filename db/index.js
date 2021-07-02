@@ -6,11 +6,14 @@ const {
 const fs = require('fs')
 const path = require('path')
 
+const associations = require('./associations')
+
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
-    operatorsAliases: false  
+    operatorsAliases: false,
+    logging: false
   })
 
 const modelsPath = path.join(__dirname, 'models')
@@ -21,9 +24,8 @@ models.forEach(file => {
 
 sequelize
     .sync()
-    .then((result) => {
-        console.log("db sync correct");
-    })
-    .catch((err) => console.log(err));
+    .then(() => console.log("db sync correct"))
+
+associations(sequelize.models)
 
 module.exports = sequelize;

@@ -24,11 +24,12 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
+
 db.authenticate()
-    .then(() => console.log("Connection to Database has been established successfully."))
-    .then(() => app.listen(PORT, HOST, () => {
-        console.log("Server start on", HOST, PORT);
-    }))
-    .catch((error) => {
-        console.error("Unable to connect to the database:", error);
-    })
+    .then(() => {
+        console.log("Connection to Database has been established successfully.")
+        app.listen(PORT, HOST, () => {
+            console.log("Server start on", HOST, PORT);
+        })
+    })   
+    .catch((err) => console.log(err));
