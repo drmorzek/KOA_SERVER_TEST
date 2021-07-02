@@ -13,7 +13,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     port: process.env.DB_PORT,
     dialect: 'postgres',
     operatorsAliases: false,
-    logging: false
+    logging: false,
+    omitNull: true
   })
 
 const modelsPath = path.join(__dirname, 'models')

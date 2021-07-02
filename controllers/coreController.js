@@ -1,4 +1,4 @@
-const lessonsService = requireRoot('services/lessonsService');
+const getLessonsService = requireRoot('services/getLessonsService');
 
 
 
@@ -7,7 +7,7 @@ class coreController {
     static async getLessons(ctx, next) {
         try {
           ctx.status = 200
-          ctx.body = await lessonsService({ 
+          ctx.body = await getLessonsService({ 
             date: ctx.query.date , 
             status: ctx.query.status, 
             page: ctx.query.page, 
