@@ -90,7 +90,6 @@ async function postLessons(
     })
 
     let d = await models.LessonsTeachersModel.bulkCreate(arrTeachersToDb)
-    console.log(d)
 
     return q.map(e => e.id)
 
